@@ -7,23 +7,22 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ProductController extends Controller
-
 {
 
-    public static $products = [
+    public static $products =
+        [
 
-        ["id"=>"1", "name"=>"TV", "description"=>"Best TV"],
+            ["id" => "1", "name" => "TV", "description" => "Best TV", "price" => "100"],
 
-        ["id"=>"2", "name"=>"iPhone", "description"=>"Best iPhone"],
+            ["id" => "2", "name" => "iPhone", "description" => "Best iPhone", "price" => "200"],
 
-        ["id"=>"3", "name"=>"Chromecast", "description"=>"Best Chromecast"],
+            ["id" => "3", "name" => "Chromecast", "description" => "Best Chromecast", "price" => "50"],
 
-        ["id"=>"4", "name"=>"Glasses", "description"=>"Best Glasses"]
+            ["id" => "4", "name" => "Glasses", "description" => "Best Glasses", "price" => "10"]
 
-    ];
+        ];
 
     public function index(): View
-
     {
 
         $viewData = [];
@@ -38,17 +37,18 @@ class ProductController extends Controller
 
     }
 
-    public function show(string $id) : View
-
+    public function show(string $id): View
     {
 
         $viewData = [];
 
-        $product = ProductController::$products[$id-1];
 
-        $viewData["title"] = $product["name"]." - Online Store";
 
-        $viewData["subtitle"] = $product["name"]." - Product information";
+        $product = ProductController::$products[$id - 1];
+
+        $viewData["title"] = $product["name"] . " - Online Store";
+
+        $viewData["subtitle"] = $product["name"] . " - Product information";
 
         $viewData["product"] = $product;
 
@@ -59,32 +59,39 @@ class ProductController extends Controller
 
 
     public function create(): View
-
     {
 
         $viewData = []; //to be sent to the view
 
         $viewData["title"] = "Create product";
 
-        return view('product.create')->with("viewData",$viewData);
+        return view('product.create')->with("viewData", $viewData);
 
     }
+
 
     public function save(Request $request)
-
     {
+        $viewData = []; //to be sent to the view
 
         $request->validate([
-
-            "name" => "required",
-
-            "price" => "required"
-
+            "name" => "required|string|max:255",
+            "price" => "required|numeric|min:0"
         ]);
 
-        dd($request->all());
-
-    //here will be the code to call the model and save it to the database
+        return redirect()->route('product.created');    
+        
+        //here will be the code to call the model and save it to the database
 
     }
+
+
+    public function created(): View
+    {
+        $viewData = [];
+        $viewData["title"] = "Product Created";
+
+        return view('product.created')->with("viewData", $viewData);
+    }
+
 }

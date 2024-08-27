@@ -4,15 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\View\View;
 
-class HomeController extends Controller
-
+class ContactController extends Controller
 {
 
     public function index(): View
 
     {
 
-        return view('home.index');
+        return view('contact.index');
 
     }
 

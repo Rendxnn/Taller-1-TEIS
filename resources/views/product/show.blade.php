@@ -1,3 +1,7 @@
+@php
+    $price = $viewData["product"]["price"];
+@endphp
+
 @extends('layouts.app')
 
 @section('title', $viewData["title"])
@@ -22,11 +26,16 @@
 
 <h5 class="card-title">
 
-{{ $viewData["product"]["name"] }}
+<p style="color: {{ $price > 100 ? 'red' : 'black' }}">
+    {{ $viewData["product"]["name"] }}
+</p>
+
 
 </h5>
 
 <p class="card-text">{{ $viewData["product"]["description"] }}</p>
+<p class="card-text">Price: {{ $viewData["product"]["price"] }}</p>
+
 
 </div>
 
